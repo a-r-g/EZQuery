@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 
 /**
  * EZQuery GUI view class
+ *
  * @author Andrew Gjerness
  */
 public class View extends javax.swing.JFrame {
@@ -224,7 +225,8 @@ public class View extends javax.swing.JFrame {
 
     /**
      * Action Listener for about button
-     * @param evt 
+     *
+     * @param evt
      */
     private void aboutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutMouseClicked
 
@@ -233,7 +235,8 @@ public class View extends javax.swing.JFrame {
 
     /**
      * Action listener for connect button
-     * @param evt 
+     *
+     * @param evt
      */
     private void connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectActionPerformed
         url = urlText.getText();
@@ -251,7 +254,8 @@ public class View extends javax.swing.JFrame {
 
     /**
      * Disconnect button action listener
-     * @param evt 
+     *
+     * @param evt
      */
     private void disconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectActionPerformed
         connection = util.closeDB();
@@ -260,7 +264,8 @@ public class View extends javax.swing.JFrame {
 
     /**
      * Action listener for execute sql button
-     * @param evt 
+     *
+     * @param evt
      */
     private void sql_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sql_buttonActionPerformed
 
@@ -286,25 +291,26 @@ public class View extends javax.swing.JFrame {
                             }//for
 
                             //get rows
-                            int rows = 1;
+                            int rows = 0;
                             ResultSet getRows = meta_data.getResultSet();
                             while (getRows.next()) {
                                 rows += 1;
-                            }
+                            }//while
                             table_data = new String[rows][cols];
                             Result r = util.sqlQuery(sql);
-                            if (rows <= 1) {
+                            if (rows < 1) {
                                 results_text.setText("Your query returned 0 results");
                             } else {
-                                for (int i = 0; i < rows; i++) {
+                                int i = 0;
+                                while(r.getResultSet().next()) {
                                     for (int j = 0; j < cols; j++) {
                                         table_data[i][j] = r.getResultSet().getString(j + 1);
                                     }//for
-                                    r.getResultSet().next();
-                                }//for
+                                    i++;
+                                }//while
 
                                 results_text.setText("Rows: " + rows);
-                            }
+                            }//else
                             view_table.setModel(new javax.swing.table.DefaultTableModel(table_data, header));
 
                         } catch (NullPointerException e) {

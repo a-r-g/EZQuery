@@ -103,7 +103,6 @@ public class Utilities {
             rs = stmt.executeQuery(sql);
             mdata = rs.getMetaData();
             c = sql;
-            rs.next();
 
         } catch (SQLException e) {
             c = "" + e;
