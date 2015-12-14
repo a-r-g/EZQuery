@@ -25,6 +25,8 @@ package ezquery;
 
 //import statements
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Utility Class for EZQuery
@@ -35,15 +37,10 @@ public class Utilities {
 
     //fields
     private Connection conn = null; // Connection object
+    private String connStatus = null;
 
-    /**
-     * Open a MySQL DB connection where url, username, and password are
-     * passed into the method
-     * @return connection status
-     */
-    public String openDB(String url, String user, String pass) {
-        String connStatus = null;
-
+    public Utilities() {
+        
         // Load the MySQL JDBC driver
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -51,11 +48,20 @@ public class Utilities {
         } catch (ClassNotFoundException e) {
             connStatus = "Unable to load driver.";
         }//catch
+    }//constructor
+    
+    
+    /**
+     * Open a MySQL DB connection where url, username, and password are
+     * passed into the method
+     * @return connection status
+     */
+    public String openDB(String url, String user, String pass) {
 
         try {
             conn = DriverManager.getConnection(url, user, pass);
         } catch (SQLException e) {
-            connStatus = "Error connecting to database: " + e.toString();
+            connStatus = "Error connecting to database";
         }//catch
 
         if (conn != null) {
@@ -70,11 +76,12 @@ public class Utilities {
      * @return the status of the database connection
      */
     public String closeDB() {
-        String connStatus = null;
+        
+        connStatus = null;
         try {
             if (conn != null) {
                 conn.close();
-            }
+            }//if
             conn = null;
         } catch (SQLException e) {
             connStatus = "Failed to close database connection: " + e;

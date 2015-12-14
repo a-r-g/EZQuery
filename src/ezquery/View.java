@@ -250,6 +250,11 @@ public class View extends javax.swing.JFrame {
         connection = util.openDB(url, user, pass);
         connStatusText.setText(connection);
 
+        //reset input
+        url = null;
+        user = null;
+        pass = "";
+
     }//GEN-LAST:event_connectActionPerformed
 
     /**
